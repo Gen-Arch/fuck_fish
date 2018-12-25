@@ -5,6 +5,7 @@ require "slim"
 require "json"
 require 'rack/contrib'
 
+use Rack::PostBodyContentTypeParser
 set :server, :puma
 
 before do
@@ -15,10 +16,10 @@ helpers do
   def client
     @client ||= Elasticsearch::Client.new url: "http://localhost:9200", log: true
   end
-  
-  def query(type, **hash)
-    q = {index: "fuck_fish", type: type}
-    q.merge(hash) if hash
+
+  def arg_factory(type, **hash)
+    default = {index: "fuck_fish", type: type}
+    default.merge(hash) if hash
   end
 end
 
@@ -26,17 +27,22 @@ get "/" do
   slim :index
 end
 
-get "/info" do
+get "/info/:mode" do
   content_type :json
-  client.info.to_json
+
+  mode = params[:mode]
+  client.cat.indices.to_json if mode == "index"
+  client.info.to_json if mode == "status"
 end
+
 
 get "/elastic/:type/get/:id" do
   content_type :json
-  type = params.delete(:type)
-  id = params.delete(:id)
-  q = query(type, id: id)
-  client.get(**q).to_json
+
+  type = params[:type]
+  id   = params[:id]
+  args = arg_factory(type, id: id)
+  client.get(**args).to_json
 end 
 
 post "/elastic/:type/:mode/:id" do
@@ -54,10 +60,26 @@ post "/elastic/:type/:mode/:id" do
     err.to_json
   end
 
-  if defined? body
-    q = query(type, id: id, body: body)
-  else
-    q = query(type, id: id)
-  end
-  client.send(mode, **q).to_json
+  args = if defined? body
+           p body
+           arg_factory(type, id: id, body: body)
+         else
+           arg_factory(type, id: id)
+         end
+
+  puts args
+  client.send(mode, **args).to_json
+end
+
+get "/elastic/search" do
+  index = params[:index]
+  body = params[:body]
+
+  args = if index
+           {index: index, body: body}
+         else
+           {body: body}
+         end
+
+  client.search(**args).to_json
 end
