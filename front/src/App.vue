@@ -1,20 +1,17 @@
 <template>
   <div>
-    <span class="ms">{{message}}</span>
+    <blog></blog>
   </div>
 </template>
 <script>
+import Blog from './pages/Blog.vue';
 export default {
-  data() {
-    return {
-      message: "hello vue."
-    }
-  }
+  components:{Blog}
 };
 </script>
-<style lang="scss" scoped>
-  .ms{
-    color: blue;
-    font-size: 40px;
-  }
+<style>
+html,body{
+  margin: 0;
+  padding: 0
+}
 </style>
