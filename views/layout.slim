@@ -8,4 +8,8 @@ html lang="en"
 
   body
     == yield :index
-    script src="js/hoge.js"
+    - if settings.development?
+      script src="http://localhost:8080/assets/bundle.js"
+    - else
+      script src="js/hoge.js"
+    
