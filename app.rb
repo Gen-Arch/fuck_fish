@@ -5,6 +5,8 @@ require "slim"
 require "json"
 require 'rack/contrib'
 
+require_relative "lib/application_helper"
+
 use Rack::PostBodyContentTypeParser
 set :server, :puma
 
@@ -67,13 +69,12 @@ post "/elastic/:type/:mode/:id" do
            arg_factory(type, id: id)
          end
 
-  puts args
   client.send(mode, **args).to_json
 end
 
 get "/elastic/search" do
   index = params[:index]
-  body = params[:body]
+  body  = params[:body]
 
   args = if index
            {index: index, body: body}
