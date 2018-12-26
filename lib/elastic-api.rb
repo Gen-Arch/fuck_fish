@@ -11,11 +11,26 @@ module Elasticapi
       http_request("get", path)
     end
 
-    def search
+    def mget
       data = {
         #body: {query: {match: {data: {query: "test4"}}}}
-        index: "fuck_fish",
-        body: {query: {match: {text: {query: 'hello', operator: "and", zero_terms_query: "all"}}}}
+        #index: "fuck_fish",
+        #body: {query: {match: {text: {query: 'hello', operator: "and", zero_terms_query: "all"}}}}
+        body: {
+          query: {match_all: {}},
+          _source: ["account_number", "balance"]
+        }
+      }
+      path = File.join("mget")
+      http_request("get", path)
+    end
+
+    def search
+      data = {
+        body: {
+          query: {match: {text: "hello"}},
+          aggregations: { tags:  { terms: { field: 'tags' } }}
+        }
       }
 
       path = File.join("search")

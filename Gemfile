@@ -10,3 +10,5 @@ gem 'rack-contrib'
 gem "elasticsearch"
 gem "puma"
 gem "slim"
+gem "redcarpet"
+gem "rouge"

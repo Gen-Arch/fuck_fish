@@ -33,7 +33,7 @@ get "/info/:mode" do
   content_type :json
 
   mode = params[:mode]
-  client.cat.indices.to_json if mode == "index"
+  client.cat.to_json if mode == "index"
   client.info.to_json if mode == "status"
 end
 
@@ -45,6 +45,19 @@ get "/elastic/:type/get/:id" do
   id   = params[:id]
   args = arg_factory(type, id: id)
   client.get(**args).to_json
+end 
+
+get "/elastic/mget" do
+  content_type :json
+
+  type = params[:type]
+
+  args = if type
+           arg_factory(type)
+         else
+           {index: "fuck_fish"}
+         end
+  client.mget(**args).to_json
 end 
 
 post "/elastic/:type/:mode/:id" do
@@ -75,12 +88,7 @@ end
 get "/elastic/search" do
   index = params[:index]
   body  = params[:body]
-
-  args = if index
-           {index: index, body: body}
-         else
-           {body: body}
-         end
+  args = {index: index, body: body}
 
   client.search(**args).to_json
 end
