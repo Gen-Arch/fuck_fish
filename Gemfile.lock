@@ -21,6 +21,8 @@ GEM
       rack (~> 2.0)
     rack-protection (2.0.5)
       rack
+    redcarpet (3.4.0)
+    rouge (3.3.0)
     sinatra (2.0.5)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -46,6 +48,8 @@ DEPENDENCIES
   elasticsearch
   puma
   rack-contrib
+  redcarpet
+  rouge
   sinatra
   sinatra-contrib
   slim
