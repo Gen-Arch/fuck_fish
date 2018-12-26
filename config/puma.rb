@@ -12,7 +12,7 @@ end
 #default directory
 directory app_path
 #env mode
-environment 'production'
+#environment 'production'
 
 #service daemon
 daemonize
