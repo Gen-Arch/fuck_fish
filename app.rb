@@ -60,29 +60,31 @@ get "/elastic/mget" do
   client.mget(**args).to_json
 end 
 
-post "/elastic/:type/:mode/:id" do
+post "/elastic/:type/:mode" do
   content_type :json
   type = params[:type]
-  id   = params[:id]
   mode = params[:mode]
+  id   = params[:id]   if params.key?(:id)
   body = params[:body] if params.key?(:body)
 
   begin
     raise unless  ["index", "delete"].include?(mode)
+
+  args = if defined? body
+           p body
+           arg_factory(type, body: body)
+         elsif defined? id
+           arg_factory(type, id: id)
+         else
+           raise
+         end
+  client.send(mode, **args).to_json
+
   rescue => e
     err = {err: e}
     status 400
     err.to_json
   end
-
-  args = if defined? body
-           p body
-           arg_factory(type, id: id, body: body)
-         else
-           arg_factory(type, id: id)
-         end
-
-  client.send(mode, **args).to_json
 end
 
 get "/elastic/search" do
