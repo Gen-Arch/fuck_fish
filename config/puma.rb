@@ -15,7 +15,7 @@ directory app_path
 environment 'production'
 
 #service daemon
-daemonize
+# daemonize
 
 #process id file
 pidfile "#{app_path}/tmp/pids/puma.pid"

@@ -60,6 +60,12 @@ get "/elastic/mget" do
   client.mget(**args).to_json
 end 
 
+post "/elastic/:type/post" do
+  content_type :json
+  type = params.delete(:type)
+  p client.send(:index, **arg_factory(type, body: params['body'])).to_json
+end
+
 post "/elastic/:type/:mode/:id" do
   content_type :json
   type = params[:type]
@@ -83,6 +89,10 @@ post "/elastic/:type/:mode/:id" do
          end
 
   client.send(mode, **args).to_json
+end
+
+get "/elastic/:type" do
+  client.search(type: params['type']).to_json
 end
 
 get "/elastic/search" do
