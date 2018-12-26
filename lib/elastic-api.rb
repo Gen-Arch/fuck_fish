@@ -39,10 +39,10 @@ module Elasticapi
 
     def index
       data = {
-        body: {title: "てすと〜〜2",　text: "あ〜あ", name: "gen"
+        body: {title: "てすと〜〜3", text: "あ〜あ", name: "gen"
         }
       }
-      path =  File.join("diary", "index", "gen4")
+      path =  File.join("diary", "index")
       http_request("post", path, data)
     end
 
@@ -66,5 +66,5 @@ module Elasticapi
 end
 
 if __FILE__ == $0
-  puts Elasticapi.search
+  puts Elasticapi.index
 end

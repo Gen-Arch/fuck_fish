@@ -47,19 +47,6 @@ get "/elastic/:type/get/:id" do
   client.get(**args).to_json
 end 
 
-get "/elastic/mget" do
-  content_type :json
-
-  type = params[:type]
-
-  args = if type
-           arg_factory(type)
-         else
-           {index: "fuck_fish"}
-         end
-  client.mget(**args).to_json
-end 
-
 post "/elastic/:type/:mode" do
   content_type :json
   type = params[:type]
