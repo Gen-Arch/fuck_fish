@@ -64,6 +64,7 @@ get "/elastic/search" do
       args.merge!(q: query)
     end
   end
+
   client.search(**args).to_json
 end
 
@@ -77,7 +78,7 @@ post "/elastic/:mode/:type" do
   begin
     raise unless  ["index", "delete"].include?(mode)
 
-    args = case type
+    args = case mode
            when "index"  then arg_factory(type, body: body)
            when "delete" then arg_factory(type, id: id)
            else

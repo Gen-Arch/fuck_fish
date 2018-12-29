@@ -38,12 +38,12 @@ module Elasticapi
     end
 
     def index(data)
-      path =  File.join("diary", "index")
+      path =  File.join("index", "diary")
       http_request("post", path, data)
     end
 
     def delete
-      path =  File.join("diary", "delete", "1")
+      path =  File.join("delete", "diary", "1")
       http_request("post", path)
     end
 
