@@ -3,6 +3,7 @@ url => http://gen-server.wjg.jp/fuck_fish/elastic
 
 ## 値追加
 * /index/[type]
+
 [type] => table名
 
 json request: true
@@ -21,6 +22,7 @@ curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/index/diary/" -d '
 
 ## 値削除
 * /delete/[type]
+
 [type] => table名
 
 json request: true
