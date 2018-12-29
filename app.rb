@@ -10,9 +10,12 @@ require_relative "lib/application_helper"
 use Rack::PostBodyContentTypeParser
 set :server, :puma
 
+
 before do
   request.script_name = "/fuck_fish"
+  @index  = "fuck_fish"
 end
+
 
 helpers do
   def client
@@ -20,8 +23,16 @@ helpers do
   end
 
   def arg_factory(type, **hash)
-    default = {index: "fuck_fish", type: type}
+    default = {index: @index, type: type}
     default.merge(hash) if hash
+  end
+
+  def jbuilder(query)
+    raise unless query.is_a?(Hash)
+    raise unless query.size == 1
+
+    key, val = query.first
+    {query: {match: {key.to_sym => {query: val, operator: "and"}}}}
   end
 end
 
@@ -29,16 +40,8 @@ get "/" do
   slim :index
 end
 
-get "/info/:mode" do
-  content_type :json
 
-  mode = params[:mode]
-  client.cat.to_json if mode == "index"
-  client.info.to_json if mode == "status"
-end
-
-
-get "/elastic/:type/get/:id" do
+get "/elastic/get/:type/:id" do
   content_type :json
 
   type = params[:type]
@@ -47,7 +50,24 @@ get "/elastic/:type/get/:id" do
   client.get(**args).to_json
 end 
 
-post "/elastic/:type/:mode" do
+get "/elastic/search" do
+  content_type :json
+  args  = {index: @index}
+
+  if params.key?(:query)
+    query = params[:query] 
+    if query.is_a?(Hash)
+      query = jbuilder(query) 
+      p query
+      args.merge!(body: query)
+    else
+      args.merge!(q: query)
+    end
+  end
+  client.search(**args).to_json
+end
+
+post "/elastic/:mode/:type" do
   content_type :json
   type = params[:type]
   mode = params[:mode]
@@ -57,27 +77,17 @@ post "/elastic/:type/:mode" do
   begin
     raise unless  ["index", "delete"].include?(mode)
 
-  args = if defined? body
-           p body
-           arg_factory(type, body: body)
-         elsif defined? id
-           arg_factory(type, id: id)
-         else
-           raise
-         end
-  client.send(mode, **args).to_json
+    args = case type
+           when "index"  then arg_factory(type, body: body)
+           when "delete" then arg_factory(type, id: id)
+           else
+             raise
+           end
+    client.send(mode, **args).to_json
 
   rescue => e
     err = {err: e}
     status 400
     err.to_json
   end
-end
-
-get "/elastic/search" do
-  index = params[:index]
-  body  = params[:body]
-  args = {index: index, body: body}
-
-  client.search(**args).to_json
 end

@@ -1,47 +1,43 @@
 require "net/http"
 require "json"
 require 'uri'
+require 'optparse'
 
 
 module Elasticapi
   class << self
+
+    def cli(argv = ARGV)
+      op   = OptionParser.new
+      opts = Hash.new
+      op.on('-m', '--mode [VALUE]', "set api mode") {|v| opts[:mode] = v }
+      json, _ = op.parse(argv) 
+
+      res = if json.nil?
+              Elasticapi.send(opts[:mode])
+            else
+              Elasticapi.send(opts[:mode], JSON.parse(json))
+            end
+      #pp res
+      pp JSON.parse(res)
+    end
 
     def get
       path = File.join("diary", "get", "5")
       http_request("get", path)
     end
 
-    def mget
-      data = {
-        #body: {query: {match: {data: {query: "test4"}}}}
-        #index: "fuck_fish",
-        #body: {query: {match: {text: {query: 'hello', operator: "and", zero_terms_query: "all"}}}}
-        body: {
-          query: {match_all: {}},
-          _source: ["account_number", "balance"]
-        }
-      }
-      path = File.join("mget")
-      http_request("get", path)
-    end
-
-    def search
-      data = {
-        body: {
-          query: {match: {text: "hello"}},
-          aggregations: { tags:  { terms: { field: 'tags' } }}
-        }
-      }
-
+    def search(data=nil)
       path = File.join("search")
-      http_request("get", path, data)
+
+      if data.nil?
+        http_request("get", path)
+      else
+        http_request("get", path, data)
+      end
     end
 
-    def index
-      data = {
-        body: {title: "てすと〜〜3", text: "あ〜あ", name: "gen"
-        }
-      }
+    def index(data)
       path =  File.join("diary", "index")
       http_request("post", path, data)
     end
@@ -58,13 +54,19 @@ module Elasticapi
 
       req = Net::HTTP.const_get(method.capitalize).new(File.join(url.path, path))
       req["Content-Type"] = "application/json"
-      req.body = json.to_json if json
-      puts req.body
+      
+      puts "[request url]"
+      puts url + path
+      puts "=" * 50
+      unless json.nil?
+        puts "[request json]"
+        req.body = json.to_json
+        pp req.body
+        puts "=" * 50
+      end
       http.request(req).body
     end
   end
 end
 
-if __FILE__ == $0
-  puts Elasticapi.index
-end
+Elasticapi.cli if __FILE__ == $0
