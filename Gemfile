@@ -10,6 +10,5 @@ gem 'rack-contrib'
 gem "elasticsearch"
 gem "puma"
 gem "slim"
-gem "jbuilder"
 gem "redcarpet"
 gem "rouge"
