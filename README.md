@@ -1,3 +1,37 @@
+# Service
+
+## sinatra
+
+### 起動
+```shell:start
+bundle exec puma -e [開発環境] config.ru
+```
+
+[開発環境]
+* development
+* production
+
+### 停止
+
+```shell:stop
+bundle exec pumactl stop
+```
+
+## vue.js
+
+```
+cd front
+npm install
+npm run build
+```
+
+## elasticsearch
+
+```
+docker-compose up
+```
+
+
 # API
 url => http://gen-server.wjg.jp/fuck_fish/elastic 
 
