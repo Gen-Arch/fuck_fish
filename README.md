@@ -54,6 +54,19 @@ curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/index/diary/" -d '
 '
 ```
 
+### response
+```
+{"_index"=>"fuck_fish",
+ "_type"=>"diary",
+ "_id"=>"cWpV_GcBrRcFypaTDKB4",
+ "_version"=>1,
+ "result"=>"created",
+ "_shards"=>{"total"=>2, "successful"=>1, "failed"=>0},
+ "_seq_no"=>4,
+ "_primary_term"=>3}
+```
+
+
 ## 値削除
 * /delete/[type]
 
@@ -62,9 +75,23 @@ curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/index/diary/" -d '
 json request: true
 
 ```shell:sample request
-curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/delete/diary/" -d '{"id": "1"}'
+curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/delete/diary/" -d '{"id": "cWpV_GcBrRcFypaTDKB4"}'
 ```
 
+
+### response
+
+```
+{"_index"=>"fuck_fish",
+ "_type"=>"diary",
+ "_id"=>"cWpV_GcBrRcFypaTDKB4",
+ "_version"=>2,
+ "result"=>"deleted",
+ "_shards"=>{"total"=>2, "successful"=>1, "failed"=>0},
+ "_seq_no"=>5,
+ "_primary_term"=>3}
+
+```
 
 ## 検索
 
