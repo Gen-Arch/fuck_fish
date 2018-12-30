@@ -86,3 +86,25 @@ curl -X GET "http://gen-server.wjg.jp/fuck_fish/elastic/search/" -d '{"query": "
 curl -X GET "http://gen-server.wjg.jp/fuck_fish/elastic/search/" -d '{"query": {"text": "hoge"}}'
 #=> key「text」, キーワード「hoge」で全文検索
 ```
+
+
+### response
+```
+{"took"=>2,
+ "timed_out"=>false,
+ "_shards"=>{"total"=>5, "successful"=>5, "skipped"=>0, "failed"=>0},
+ "hits"=>
+  {"total"=>1,
+   "max_score"=>0.2876821,
+   "hits"=>
+    [{"_index"=>"fuck_fish",
+      "_type"=>"diary",
+      "_id"=>"cWpV_GcBrRcFypaTDKB4",
+      "_score"=>0.2876821,
+      "_source"=>
+       {"title"=>"test title",
+        "text"=>"hoge~~~~~~~",
+        "contributor"=>"gen",
+        "tags"=>["test1", "test2", "test3"]}}]}}
+```
+※検索結果が複数の場合、hitsに格納されてゆく
