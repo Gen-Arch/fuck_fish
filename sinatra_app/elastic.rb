@@ -1,9 +1,8 @@
-require "sinatra/base"
 require "elasticsearch"
 require "json"
 require 'rack/contrib'
 
-class ElasticAPI < Sinatra::Base
+class ElasticAPI < FuckFish
 
   use Rack::PostBodyContentTypeParser
 
@@ -30,7 +29,7 @@ class ElasticAPI < Sinatra::Base
     end
   end
 
-  get "/elastic/get/:type/:id" do
+  get "/get/:type/:id" do
     content_type :json
 
     type = params[:type]
@@ -39,7 +38,7 @@ class ElasticAPI < Sinatra::Base
     client.get(**args).to_json
   end 
 
-  get "/elastic/search" do
+  get "/search" do
     content_type :json
     args  = {index: @index}
 
@@ -57,28 +56,28 @@ class ElasticAPI < Sinatra::Base
     client.search(**args).to_json
   end
 
-  post "/elastic/:mode/:type" do
-    content_type :json
-    type = params[:type]
-    mode = params[:mode]
-    id   = params[:id]   if params.key?(:id)
-    body = params[:body] if params.key?(:body)
+  ["index", "delete"].each do |mode|
+    post "/#{mode}/:type" do
+      content_type :json
+      type = params[:type]
+      mode = params[:mode]
+      id   = params[:id]   if params.key?(:id)
+      body = params[:body] if params.key?(:body)
 
-    begin
-      raise unless  ["index", "delete"].include?(mode)
+      begin
+        args = case mode
+               when "index"  then arg_factory(type, body: body)
+               when "delete" then arg_factory(type, id: id)
+               else
+                 raise
+               end
+        client.send(mode, **args).to_json
 
-      args = case mode
-             when "index"  then arg_factory(type, body: body)
-             when "delete" then arg_factory(type, id: id)
-             else
-               raise
-             end
-      client.send(mode, **args).to_json
-
-    rescue => e
-      err = {err: e}
-      status 400
-      err.to_json
+      rescue => e
+        err = {err: e}
+        status 400
+        err.to_json
+      end
     end
   end
 end
