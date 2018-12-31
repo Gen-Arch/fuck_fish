@@ -42,9 +42,9 @@ module Elasticapi
       http_request("post", path, data)
     end
 
-    def delete
-      path =  File.join("delete", "diary", "1")
-      http_request("post", path)
+    def delete(data)
+      path =  File.join("delete", "diary")
+      http_request("post", path, data)
     end
 
 
