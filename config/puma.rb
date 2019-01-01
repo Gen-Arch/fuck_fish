@@ -12,7 +12,7 @@ end
 #default directory
 directory app_path
 #env mode
-environment 'production'
+#environment 'production'
 
 #service daemon
 # daemonize
@@ -30,8 +30,8 @@ stdout_redirect "#{app_path}/log/app.log", "#{app_path}/log/app_err.log", true
 threads 0, 16
 
 #socket type
-#bind 'tcp://0.0.0.0:9292' #=> tcp socket
-bind "unix:///#{app_path}/tmp/sockets/puma.sock"
+bind 'tcp://0.0.0.0:3000' #=> tcp socket
+# bind "unix:///#{app_path}/tmp/sockets/puma.sock"
 
 #pumactl
 activate_control_app
