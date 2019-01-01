@@ -27,6 +27,10 @@ class ElasticAPI < FuckFish
       key, val = query.first
       {query: {match: {key.to_sym => {query: val, operator: "and"}}}}
     end
+
+    def err_json!(req, err=nil)
+      req.merge({"RESULT" => err}).to_json
+    end
   end
 
   get "/get/:type/:id" do
@@ -36,24 +40,30 @@ class ElasticAPI < FuckFish
     id   = params[:id]
     args = arg_factory(type, id: id)
     client.get(**args).to_json
-  end 
+
+  rescue => err
+    status 400
+    err_json!(request.env, err)
+  end
 
   get "/search" do
     content_type :json
     args  = {index: @index}
+    query = params[:query]
 
-    if params.key?(:query)
-      query = params[:query] 
-      if query.is_a?(Hash)
-        query = jbuilder(query) 
-        p query
-        args.merge!(body: query)
-      else
-        args.merge!(q: query)
-      end
+    case query
+    when String
+      args.merge!(q: query)
+    when Hash
+      query = jbuilder(query) 
+      args.merge!(body: query)
     end
 
     client.search(**args).to_json
+
+  rescue => err
+    status 400
+    err_json!(request.env, err)
   end
 
   ["index", "delete"].each do |mode|
@@ -64,20 +74,17 @@ class ElasticAPI < FuckFish
       id   = params[:id]   if params.key?(:id)
       body = params[:body] if params.key?(:body)
 
-      begin
-        args = case mode
-               when "index"  then arg_factory(type, body: body)
-               when "delete" then arg_factory(type, id: id)
-               else
-                 raise
-               end
-        client.send(mode, **args).to_json
+      args = case mode
+             when "index"  then arg_factory(type, body: body)
+             when "delete" then arg_factory(type, id: id)
+             else
+               raise
+             end
+      client.send(mode, **args).to_json
 
-      rescue => e
-        err = {err: e}
-        status 400
-        err.to_json
-      end
+    rescue => err
+      status 400
+      err_json!(request.env, err)
     end
   end
 end
