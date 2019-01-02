@@ -12,7 +12,10 @@ class ElasticAPI < FuckFish
 
   helpers do
     def client
-      @client ||= Elasticsearch::Client.new url: "http://localhost:9200", log: true
+      url =
+
+       settings.development? ? ENV["ELASTICSEARCH_URL"] : "http://localhost:9200"
+      @client ||= Elasticsearch::Client.new url: url, log: true
     end
 
     def arg_factory(type, **hash)
@@ -70,7 +73,6 @@ class ElasticAPI < FuckFish
     post "/#{mode}/:type" do
       content_type :json
       type = params[:type]
-      mode = params[:mode]
       id   = params[:id]   if params.key?(:id)
       body = params[:body] if params.key?(:body)
 
@@ -78,7 +80,7 @@ class ElasticAPI < FuckFish
              when "index"  then arg_factory(type, body: body)
              when "delete" then arg_factory(type, id: id)
              else
-               raise
+               raise "no mode!!"
              end
       client.send(mode, **args).to_json
 

@@ -49,7 +49,7 @@ module Elasticapi
 
 
     def http_request(method, path, json=nil)
-      url  = URI.parse('http://localhost:9200/fuck_fish/elastic/')
+      url  = URI.parse('http://localhost/fuck_fish/elastic/')
       http = Net::HTTP.start(url.host, url.port)
 
       req = Net::HTTP.const_get(method.capitalize).new(File.join(url.path, path))

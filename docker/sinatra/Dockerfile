@@ -5,10 +5,10 @@ WORKDIR /app/
 COPY Gemfile /app/
 
 RUN gem install bundler \
-  && bundle install --clean --path /bundle
+  && bundle install --clean --path vendor/bundle
 
 VOLUME /app/public
 VOLUME /app/tmp
 
 COPY . /app/
-CMD ["bundle", "exec", "puma", "-C" "config/puma.rb"]
+CMD bundle exec pumactl start
