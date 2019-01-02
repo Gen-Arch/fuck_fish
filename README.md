@@ -25,12 +25,12 @@ npm install
 npm run build
 ```
 
-## elasticsearch
+## elasticsearch + nginx + sinatra
 
 ```
 docker-compose up
 ```
-
+=> api-url: http://localhost/fuckfish/elastic
 
 # API
 url => http://gen-server.wjg.jp/fuck_fish/elastic 
