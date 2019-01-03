@@ -12,7 +12,7 @@ export default {
   data() {
     return {
         post(title, text) {
-            Axios.post('elastic/diary/post',
+            Axios.post('elastic/index/diary',
             {
                 body: {
                     title: title,

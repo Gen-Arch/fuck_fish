@@ -11,7 +11,8 @@ end
 
 #default directory
 directory app_path
-#env mode
+
+#env mode(default development)
 #environment 'production'
 
 #service daemon

@@ -12,9 +12,7 @@ class ElasticAPI < FuckFish
 
   helpers do
     def client
-      url =
-
-       settings.development? ? ENV["ELASTICSEARCH_URL"] : "http://localhost:9200"
+      url = settings.development? ? ENV["ELASTICSEARCH_URL"] : "http://localhost:9200"
       @client ||= Elasticsearch::Client.new url: url, log: true
     end
 
@@ -32,11 +30,12 @@ class ElasticAPI < FuckFish
     end
 
     def err_json!(req, err=nil)
-      req.merge({"RESULT" => err}).to_json
+      req.merge({"result" => err}).to_json
     end
   end
 
   get "/get/:type/:id" do
+    cross_origin
     content_type :json
 
     type = params[:type]
@@ -50,6 +49,7 @@ class ElasticAPI < FuckFish
   end
 
   get "/search" do
+    cross_origin
     content_type :json
     args  = {index: @index}
     query = params[:query]
@@ -71,6 +71,7 @@ class ElasticAPI < FuckFish
 
   ["index", "delete"].each do |mode|
     post "/#{mode}/:type" do
+      cross_origin
       content_type :json
       type = params[:type]
       id   = params[:id]   if params.key?(:id)

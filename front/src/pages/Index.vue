@@ -17,7 +17,7 @@ export default {
     };
   },
   mounted() {
-    Axios.get('elastic/diary')
+    Axios.get('elastic/search')
     .then((response) => {
         // console.log(response.data.hits.hits.map(v=>v._source));
         console.log(this.contents)
