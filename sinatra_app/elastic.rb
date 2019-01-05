@@ -1,27 +1,30 @@
 require "elasticsearch"
-require "json"
-require 'rack/contrib'
 
 class ElasticAPI < FuckFish
-
-  use Rack::PostBodyContentTypeParser
-
   before do
+    cross_origin #cros対応
+    content_type :json
     @index  = "fuck_fish"
   end
 
   helpers do
     def client
+      #elasticsearch-ruby gem, get object
+      #https://github.com/elastic/elasticsearch-ruby
+      
       url = settings.development? ? ENV["ELASTICSEARCH_URL"] : "http://localhost:9200"
       @client ||= Elasticsearch::Client.new url: url, log: true
     end
 
     def arg_factory(type, **hash)
+      #elastic gem 変数調整用
       default = {index: @index, type: type}
       default.merge(hash) if hash
     end
 
     def jbuilder(query)
+      #elastic gem method => search
+      #json変数 調整用
       raise unless query.is_a?(Hash)
       raise unless query.size == 1
 
@@ -30,27 +33,21 @@ class ElasticAPI < FuckFish
     end
 
     def err_json!(req, err=nil)
+      #err status conversion => json
       req.merge({"result" => err}).to_json
     end
   end
 
   get "/get/:type/:id" do
-    cross_origin
-    content_type :json
 
     type = params[:type]
     id   = params[:id]
     args = arg_factory(type, id: id)
     client.get(**args).to_json
 
-  rescue => err
-    status 400
-    err_json!(request.env, err)
   end
 
   get "/search" do
-    cross_origin
-    content_type :json
     args  = {index: @index}
     query = params[:query]
 
@@ -64,15 +61,10 @@ class ElasticAPI < FuckFish
 
     client.search(**args).to_json
 
-  rescue => err
-    status 400
-    err_json!(request.env, err)
   end
 
   ["index", "delete"].each do |mode|
     post "/#{mode}/:type" do
-      cross_origin
-      content_type :json
       type = params[:type]
       id   = params[:id]   if params.key?(:id)
       body = params[:body] if params.key?(:body)
@@ -84,10 +76,11 @@ class ElasticAPI < FuckFish
                raise "no mode!!"
              end
       client.send(mode, **args).to_json
-
-    rescue => err
-      status 400
-      err_json!(request.env, err)
     end
+  end
+
+  error do
+    status 400
+    err_json!(request.env, env['sinatra.error'].name)
   end
 end
