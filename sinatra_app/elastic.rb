@@ -11,7 +11,7 @@ class ElasticAPI < FuckFish
     def client
       #elasticsearch-ruby gem, get object
       #https://github.com/elastic/elasticsearch-ruby
-      
+
       url = settings.development? ? ENV["ELASTICSEARCH_URL"] : "http://localhost:9200"
       @client ||= Elasticsearch::Client.new url: url, log: true
     end
@@ -39,12 +39,10 @@ class ElasticAPI < FuckFish
   end
 
   get "/get/:type/:id" do
-
     type = params[:type]
     id   = params[:id]
     args = arg_factory(type, id: id)
     client.get(**args).to_json
-
   end
 
   get "/search" do
@@ -60,7 +58,6 @@ class ElasticAPI < FuckFish
     end
 
     client.search(**args).to_json
-
   end
 
   ["index", "delete"].each do |mode|
@@ -83,4 +80,6 @@ class ElasticAPI < FuckFish
     status 400
     err_json!(request.env, env['sinatra.error'].name)
   end
+
+  run! if app_file == $0
 end
