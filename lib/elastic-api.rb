@@ -11,7 +11,7 @@ module Elasticapi
       op   = OptionParser.new
       opts = Hash.new
       op.on('-m', '--mode [VALUE]', "set api mode") {|v| opts[:mode] = v }
-      json, _ = op.parse(argv) 
+      json, _ = op.parse(argv)
 
       res = if json.nil?
               Elasticapi.send(opts[:mode])
@@ -54,7 +54,7 @@ module Elasticapi
 
       req = Net::HTTP.const_get(method.capitalize).new(File.join(url.path, path))
       req["Content-Type"] = "application/json"
-      
+
       puts "[request url]"
       puts url + path
       puts "=" * 50
