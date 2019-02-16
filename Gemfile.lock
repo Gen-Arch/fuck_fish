@@ -48,6 +48,7 @@ PLATFORMS
 DEPENDENCIES
   elasticsearch
   puma
+  rack
   rack-contrib
   redcarpet
   rouge

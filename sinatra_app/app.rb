@@ -2,14 +2,16 @@ require "sinatra/base"
 require 'sinatra/cross_origin'
 require "json"
 require "slim"
+require "rack/contrib"
 
-require_relative "lib/application_helper"
+require_relative "../lib/application_helper"
 
 
 class FuckFish < Sinatra::Base
   register Sinatra::CrossOrigin #cros対応
 
   configure do
+    use Rack::PostBodyContentTypeParser
     #cros対応
     enable :cross_origin
     set :allow_origin, :any

@@ -13,3 +13,4 @@ gem "slim"
 gem "redcarpet"
 gem "rouge"
 gem "sinatra-cross_origin"
+gem 'rack'
