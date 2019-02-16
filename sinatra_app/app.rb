@@ -9,11 +9,6 @@ require_relative "lib/application_helper"
 class FuckFish < Sinatra::Base
   register Sinatra::CrossOrigin #cros対応
 
-  #サブディレトリ対応
-  before do
-    request.script_name = "/fuck_fish"
-  end
-
   configure do
     #cros対応
     enable :cross_origin
@@ -25,6 +20,9 @@ class FuckFish < Sinatra::Base
 
     #web server
     set :server, :puma
+
+    # default root
+    set :root, File.expand_path("..", __dir__)
   end
 
   #cros対応 optionsメソッド
