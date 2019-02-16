@@ -13,10 +13,10 @@ end
 directory app_path
 
 #env mode(default development)
-#environment 'production'
+environment 'production'
 
 #service daemon
-# daemonize
+daemonize
 
 #process id file
 pidfile "#{app_path}/tmp/pids/puma.pid"
@@ -25,14 +25,14 @@ pidfile "#{app_path}/tmp/pids/puma.pid"
 state_path "#{app_path}/tmp/pids/puma.state"
 
 #stdout, stderr put file
-#stdout_redirect "#{app_path}/log/app.log", "#{app_path}/log/app_err.log", true
+stdout_redirect "#{app_path}/log/app.log", "#{app_path}/log/app_err.log", true
 
 #thread settting low, high
 threads 0, 16
 
 #socket type
 #bind 'tcp://0.0.0.0:3000' #=> tcp socket
-bind "unix:///#{app_path}/tmp/sockets/puma.sock"
+bind "unix://#{app_path}/tmp/sockets/puma.sock"
 
 #pumactl
 activate_control_app
