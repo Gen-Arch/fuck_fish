@@ -71,6 +71,7 @@ DEPENDENCIES
   procsd
   pry-byebug
   puma
+  rack
   rack-contrib
   rake
   sinatra
