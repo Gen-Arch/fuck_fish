@@ -1,0 +1,33 @@
+version: '2'
+services:
+  elasticsearch:
+    build: docker/elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    expose:
+      - 9300
+  sinatra:
+    build:
+      context: ./
+      dockerfile: ./docker/sinatra/Dockerfile
+    ports:
+      - "3000:3000"
+    tty: true
+    environment:
+      BUNDLE_APP_CONFIG: /app/.bundle
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    links:
+      - elasticsearch
+  nginx:
+    build: docker/nginx
+    ports:
+      - "80:80"
+    volumes_from:
+      - sinatra
+    depends_on:
+      - sinatra
+volumes:
+  elasticsearch-data:
+    driver: local

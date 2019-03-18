@@ -1,0 +1,4 @@
+app: "fuck_fish"
+environment:
+  APP_ENV: "development"
+  RELATIVE_URL_ROOT: "/fuck_fish"

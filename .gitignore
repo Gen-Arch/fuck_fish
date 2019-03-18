@@ -1,9 +1,7 @@
 *.log
+*.lock
 *.pid
 *.state
 tmp/
 log/
-vendor/
-node_modules
-front/dist/
-bundle.js
+.bundle/

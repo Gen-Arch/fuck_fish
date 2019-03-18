@@ -1,33 +1,28 @@
 version: '2'
+networks:
+  bridge:
+    driver: bridge
+
 services:
-  elasticsearch:
-    build: docker/elasticsearch
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-    expose:
-      - 9300
-  sinatra:
-    build:
-      context: ./
-      dockerfile: ./docker/sinatra/Dockerfile
-    ports:
-      - "3000:3000"
-    tty: true
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
     environment:
-      BUNDLE_APP_CONFIG: /app/.bundle
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-    links:
-      - elasticsearch
-  nginx:
-    build: docker/nginx
+      MONGODB_USER: cy-world
+      MONGODB_PASS: cygcyg123
+    volumes:
+      - ./db:/data/db
+      - ./configdb:/data/configdb
     ports:
-      - "80:80"
-    volumes_from:
-      - sinatra
-    depends_on:
-      - sinatra
-volumes:
-  elasticsearch-data:
-    driver: local
+      - '27017:27017'
+        
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    links:
+      - 'mongodb:mongo'
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: cy-world
+      ME_CONFIG_BASICAUTH_PASSWORD: cygcyg123

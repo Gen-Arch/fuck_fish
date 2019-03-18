@@ -1,8 +1,10 @@
-require "rack/contrib"
-require_relative "app"
-require_relative "sinatra_app/elastic"
+$: << File.join(__dir__, "app")
 
+require "controllers/base"
+require "controllers/app"
+require "controllers/api"
 
-use Rack::PostBodyContentTypeParser
-map("/") { run FuckFish }
-map("/elastic") { run ElasticAPI }
+url = ENV['RELATIVE_URL_ROOT'] || '/'
+
+map(url) { run APP }
+map(File.join(url, "/api")) { run API }
