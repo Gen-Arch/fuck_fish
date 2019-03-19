@@ -1,12 +1,12 @@
 development:
-  sessions:
+  clients:
     default:
       database: diary_dev
       hosts:
         - localhost:27017
 
 production:
-  sessions:
+  clients:
     default:
       database: diary
       hosts:

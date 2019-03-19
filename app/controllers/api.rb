@@ -1,5 +1,6 @@
 require "models/diary"
 require 'sinatra/param'
+require 'sinatra/json'
 
 class API < Base
   before do
@@ -8,11 +9,22 @@ class API < Base
     # protected! #=> Basic認証
   end
 
-  get '/serch' do
-    params :tags, Array
-    params :query, Hash
+  get '/' do
+    # params :tags, Array
+    # params :query, Hash
 
-    Diary.in(params[:query])
+    j = {test: Diary.all}
+    json j
+  end
+
+  get '/test' do
+    Diary.create(title: "test1",
+                text: "tesgdshfashkdjf",
+                name: "gen",
+                tags: ["test", "test2"]
+                )
+    j = {test: Diary.all}
+    json j
   end
 
   run! if app_file == $0

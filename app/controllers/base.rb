@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require "sinatra/json"
 require 'sinatra/cross_origin'
 require 'rack/contrib'
 
@@ -19,6 +18,7 @@ class Base < Sinatra::Base
     set :public_folder, File.join(root, 'app', 'dist')
     set :views, File.join(root, 'app', 'dist')
     use Rack::PostBodyContentTypeParser
+    enable :logging
   end
 
   configure :development do

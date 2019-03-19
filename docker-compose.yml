@@ -11,8 +11,7 @@ services:
       MONGODB_USER: cy-world
       MONGODB_PASS: cygcyg123
     volumes:
-      - mongodb/db:/data/db
-      - mongodb/configdb:/data/configdb
+      - mongo-db:/data
     ports:
       - '27017:27017'
 
@@ -27,5 +26,5 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: cy-world
       ME_CONFIG_BASICAUTH_PASSWORD: cygcyg123
 volumes:
-  mongodb:
+  mongo-db:
     driver: local
