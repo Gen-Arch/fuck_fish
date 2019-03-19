@@ -1,0 +1,13 @@
+development:
+  sessions:
+    default:
+      database: diary_dev
+      hosts:
+        - localhost:27017
+
+production:
+  sessions:
+    default:
+      database: diary
+      hosts:
+        - localhost:27017

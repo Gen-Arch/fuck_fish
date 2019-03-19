@@ -9,6 +9,7 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 # sinatra
 gem "sinatra"
 gem "sinatra-contrib"
+gem "sinatra-param"
 gem "sinatra-cross_origin"
 
 # web-server

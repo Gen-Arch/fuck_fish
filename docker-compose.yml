@@ -11,11 +11,11 @@ services:
       MONGODB_USER: cy-world
       MONGODB_PASS: cygcyg123
     volumes:
-      - ./db:/data/db
-      - ./configdb:/data/configdb
+      - mongodb/db:/data/db
+      - mongodb/configdb:/data/configdb
     ports:
       - '27017:27017'
-        
+
   mongo-express:
     container_name: mongo-express
     image: mongo-express
@@ -26,3 +26,6 @@ services:
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: cy-world
       ME_CONFIG_BASICAUTH_PASSWORD: cygcyg123
+volumes:
+  mongodb:
+    driver: local
