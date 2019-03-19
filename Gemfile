@@ -23,6 +23,7 @@ gem 'bson_ext'
 gem "activesupport"
 gem 'rack-contrib'
 gem "procsd"
+gem 'helper', :github => 'Gen-Arch/helper'
 
 # devlopment
 group :development do

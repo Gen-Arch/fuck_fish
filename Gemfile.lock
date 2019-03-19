@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/Gen-Arch/helper
+  revision: a42e3bcd429f4097bd9bab968ac160b696fd5e9c
+  specs:
+    helper (0.1.6)
+      color_echo (~> 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -13,6 +20,7 @@ GEM
     bson_ext (1.5.1)
     byebug (11.0.1)
     coderay (1.1.2)
+    color_echo (3.1.1)
     concurrent-ruby (1.1.5)
     dotenv (2.7.1)
     i18n (1.6.0)
@@ -69,6 +77,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   bson_ext
+  helper!
   mongoid
   procsd
   pry-byebug
