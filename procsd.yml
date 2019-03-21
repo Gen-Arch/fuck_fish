@@ -1,4 +1,4 @@
-app: "fuck_fish"
+app: "mongodb"
 environment:
   RACK_ENV: "development"
-  RELATIVE_URL_ROOT: "/fuck_fish"
+  RELATIVE_URL_ROOT: "/mongodb"

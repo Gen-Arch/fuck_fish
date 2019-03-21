@@ -24,7 +24,7 @@ gem "activesupport"
 gem 'rack-contrib'
 gem "procsd"
 gem 'helper', :github => 'Gen-Arch/helper'
-
+gem "graphql"
 # devlopment
 group :development do
   gem "rake"

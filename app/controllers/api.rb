@@ -14,14 +14,14 @@ class API < Base
   end
 
   helpers do
-    def response_json!(result)
-      # success  = (result.delete(:ok?) || false)
-      success = false
+    def response_json!(result, **options)
+      success = options.delete(:ok?) || true
       response = {
-        ok?: success,
+        success: success,
         request: params,
         result: result
       }
+      response.merge!(options)
 
       json response
     end

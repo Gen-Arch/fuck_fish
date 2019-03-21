@@ -1,137 +1,107 @@
-# Service
+# Mongodb
+mongodb WebAPI
 
-## sinatra
-
-### 起動
-```shell:start
-bundle exec puma -e [開発環境] config.ru
+# Usage
+## commands
+```
+Commands:
+  procsd --version, -v   # Print the version
+  procsd config          # Print config files based on current settings. Available types: sudoers
+  procsd create          # Create and enable app services
+  procsd destroy         # Stop, disable and remove app services
+  procsd disable         # Disable app target
+  procsd enable          # Enable app target
+  procsd exec            # Run app process
+  procsd help [COMMAND]  # Describe available commands or one specific command
+  procsd list            # List all app services
+  procsd logs            # Show app services logs
+  procsd restart         # Restart app services
+  procsd start           # Start app services
+  procsd status          # Show app services status
+  procsd stop            # Stop app services
 ```
 
-[開発環境]
-* development
-* production
-
-### 停止
-
-```shell:stop
-bundle exec pumactl stop
+## create systemd file(.service&.target)
+```
+bundle exec procsd create
 ```
 
-## vue.js
-
+## start
 ```
-cd front
-npm install
-npm run build
+bundle exec procsd start
 ```
 
-## elasticsearch + nginx + sinatra
+## stop
+```
+bundle exec procsd stop
+```
+
+
+## restart
+```
+bundle exec procsd restart
+```
+
+## enable service
+```
+bundle exec procsd enable
+```
+
+# debug
+
+## systemd status
+```
+bundle exec procsd status
+```
+
+## systemd log
+```
+bundle exec procsd logs
+```
+
+
+# http Request
+
+## all reqest
+```
+curl -H "Content-Type: application/json" -X POST "http://localhost:4567/mongodb/graphql" -d '{"query": "{ diary { title text name tags } }" }' | jq
+```
 
 ```
-docker-compose up
-```
-=> api-url: http://localhost/fuckfish/elastic
-
-# API
-url => http://gen-server.wjg.jp/fuck_fish/elastic 
-
-## 値追加
-* /index/[type]
-
-[type] => table名
-
-json request: true
-
-```shell:sample request
-curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/index/diary/" -d '
-{"body": {
-  "title": "hogehoge",
-  "text": "sample text",
-  "contributor": "gen",
-  "tags": ["test1", "test2", "test3"]
+{
+  "data": {
+    "search": [
+      {
+        "title": "hogehoge",
+        "text": "sample text",
+        "name": "gen",
+        "tags": "[\"test1\", \"test2\", \"test3\"]"
+      },
+      {
+        "title": "hogehoge",
+        "text": "sample text",
+        "name": "gen",
+        "tags": "[\"test1\", \"test2\", \"test3\"]"
+      }
+    ]
   }
 }
-'
-```
-
-### response
-```
-{"_index"=>"fuck_fish",
- "_type"=>"diary",
- "_id"=>"cWpV_GcBrRcFypaTDKB4",
- "_version"=>1,
- "result"=>"created",
- "_shards"=>{"total"=>2, "successful"=>1, "failed"=>0},
- "_seq_no"=>4,
- "_primary_term"=>3}
-```
-
-
-## 値削除
-* /delete/[type]
-
-[type] => table名
-
-json request: true
-
-```shell:sample request
-curl -X POST "http://gen-server.wjg.jp/fuck_fish/elastic/delete/diary/" -d '{"id": "cWpV_GcBrRcFypaTDKB4"}'
-```
-
-
-### response
-
-```
-{"_index"=>"fuck_fish",
- "_type"=>"diary",
- "_id"=>"cWpV_GcBrRcFypaTDKB4",
- "_version"=>2,
- "result"=>"deleted",
- "_shards"=>{"total"=>2, "successful"=>1, "failed"=>0},
- "_seq_no"=>5,
- "_primary_term"=>3}
 
 ```
 
-## 検索
-
-* /search
-
-json request: true || false
-
-```shell:sample request
-curl -X GET "http://gen-server.wjg.jp/fuck_fish/elastic/search/"
-#=> 全値取得
+## serch
+```
+curl -H "Content-Type: application/json" -X POST "http://localhost:4567/mongodb/graphql" -d '{"query": "{ search(name: gen2) { name } }" }' | jq
 ```
 
-```shell:sample request
-curl -X GET "http://gen-server.wjg.jp/fuck_fish/elastic/search/" -d '{"query": "hoge"}'
-#=> キーワード「hoge」で全文検索
 ```
-
-```shell:sample request
-curl -X GET "http://gen-server.wjg.jp/fuck_fish/elastic/search/" -d '{"query": {"text": "hoge"}}'
-#=> key「text」, キーワード「hoge」で全文検索
+{
+  "data": {
+    "search": [
+      {
+        "name": "gen2"
+      }
+    ]
+  }
+}
 ```
-
-
-### response
-```
-{"took"=>2,
- "timed_out"=>false,
- "_shards"=>{"total"=>5, "successful"=>5, "skipped"=>0, "failed"=>0},
- "hits"=>
-  {"total"=>1,
-   "max_score"=>0.2876821,
-   "hits"=>
-    [{"_index"=>"fuck_fish",
-      "_type"=>"diary",
-      "_id"=>"cWpV_GcBrRcFypaTDKB4",
-      "_score"=>0.2876821,
-      "_source"=>
-       {"title"=>"test title",
-        "text"=>"hoge~~~~~~~",
-        "contributor"=>"gen",
-        "tags"=>["test1", "test2", "test3"]}}]}}
-```
-※検索結果が複数の場合、hitsに格納されてゆく

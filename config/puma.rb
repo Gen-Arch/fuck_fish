@@ -29,7 +29,7 @@ threads 0, 16
 
 #socket type
 if ENV['RACK_ENV'] == "development"
-  bind 'tcp://0.0.0.0:3000' #=> tcp socket
+  bind 'tcp://0.0.0.0:4567' #=> tcp socket
 else
   bind "unix:///#{app_path}/tmp/sockets/puma.sock"
 end
