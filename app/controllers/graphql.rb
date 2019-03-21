@@ -1,8 +1,8 @@
-require "helper/graphql/query"
+require_relative '../graphql/appschema'
 
 class Graphql < Base
   post '/' do
-    result = Query.execute(
+    result = AppSchema.execute(
       params[:query],
       variables: params[:variables],
       context: { current_user: nil },
