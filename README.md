@@ -1,6 +1,21 @@
 # Mongodb
 mongodb WebAPI
 
+## Main
+http://localhost:4567/mongodb
+
+## REST API
+http://localhost:4567/mongodb/api
+
+## graphql
+http://localhost:4567/mongodb/graphql
+
+## debug
+
+### mongo-express
+http://localhost:8081
+
+
 # Usage
 ## commands
 ```
