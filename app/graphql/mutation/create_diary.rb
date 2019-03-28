@@ -6,9 +6,9 @@ module Mutations
     description 'Creates a diary'
 
     argument :title, String, required: true
-    argument :text, String, required: false
+    argument :text, String, required: true
     argument :name, String, required: true
-    argument :tags, [String], required: false
+    argument :tags, [String], required: true
 
     field :success, Boolean, null: false
     field :errors, [String], null: false
