@@ -14,7 +14,7 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(title:, text:, name:, tags:)
-      diary = Models::Diary.new(
+      diary = Diary.new(
         title: title,
         text: text,
         name: name,

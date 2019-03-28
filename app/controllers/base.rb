@@ -47,9 +47,9 @@ class Base < Sinatra::Base
   end
 
   #cros対応 optionsメソッド
-  options "*" do
-    response.headers["Allow"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+  options '*' do
+    response.headers['Allow'] = 'HEAD,GET,PUT,POST,DELETE,OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept'
     status 200
   end
 end
