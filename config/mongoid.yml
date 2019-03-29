@@ -1,13 +1,13 @@
 development:
   clients:
     default:
-      database: <%= ENV['DATABASE_NAME'] %>_dev
+      database: <%= ENV['DATABASE_NAME'] %>
       hosts:
         - localhost:27017
 test:
   clients:
     default:
-      database: <%= ENV['DATABASE_NAME'] %>_test
+      database: <%= ENV['DATABASE_NAME'] %>
       hosts:
         - localhost:27017
 

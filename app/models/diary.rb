@@ -1,5 +1,5 @@
 require 'mongoid'
-Mongoid.load!(File.join(__dir__, 'mongoid.yml'))
+Mongoid.load!(File.expand_path('../../config/mongoid.yml', __dir__))
 
 class Diary
   include Mongoid::Document
