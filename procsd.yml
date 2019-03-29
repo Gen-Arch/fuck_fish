@@ -1,4 +1,0 @@
-app: "mongodb"
-environment:
-  RACK_ENV: "development"
-  RELATIVE_URL_ROOT: "/mongodb"

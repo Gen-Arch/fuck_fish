@@ -7,6 +7,7 @@ class QueryType < Types::BaseType
 
   field :diary, [Types::DiaryType], null: true do
     description 'Response All Data'
+    argument :limit, Integer, required: false
   end
 
   field :search, [Types::DiaryType], null: true do
@@ -17,8 +18,12 @@ class QueryType < Types::BaseType
     argument :tags, [String], required: false
   end
 
-  def diary
-    Diary.all
+  def diary(limit: nil)
+    if limit
+      Diary.order_by(updated_at: 'desc').limit(limit)
+    else
+      Diary.order_by(updated_at: 'desc')
+    end
   end
 
   def search(**query)

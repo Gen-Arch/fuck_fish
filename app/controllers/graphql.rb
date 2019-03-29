@@ -1,6 +1,13 @@
+require 'sinatra/json'
 require_relative '../graphql/appschema'
 
 class Graphql < Base
+  before do
+    cross_origin #cros対応
+    content_type :json
+    # protected! #=> Basic認証
+  end
+
   post '/' do
     result = AppSchema.execute(
       params[:query],
