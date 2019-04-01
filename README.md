@@ -3,10 +3,10 @@ fuck fish WebAPI
 fooooooooo!!!!!
 
 ### mongo-express
-http://localhost:4567/mongodb
+http://localhost:4567/fuck_fish/mongodb
 
 ## graphql
-http://localhost:4567/mongodb/graphql
+http://localhost:4567/fuck_fish/graphql
 
 # Deplotment
 - [Ruby(2.5.0)](https://www.ruby-lang.org/ja/)
