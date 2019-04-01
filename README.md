@@ -1,12 +1,13 @@
 # fuck fish
 fuck fish WebAPI
-fooooooooo!!!!!
 
+### main
+http://localhost:4567/fuck_fish
 ### mongo-express
-http://localhost:4567/mongodb
+http://localhost:4567/fuck_fish/mongodb
 
 ## graphql
-http://localhost:4567/mongodb/graphql
+http://localhost:4567/fuck_fish/graphql
 
 # Deplotment
 - [Ruby(2.5.0)](https://www.ruby-lang.org/ja/)
@@ -89,7 +90,7 @@ Commands:
 
 ## all reqest
 ```
-curl -H "Content-Type: application/json" -X POST "http://localhost:4567/mongodb/graphql" -d '{"query": "{ diary { title text name tags } }" }' | jq
+curl -H "Content-Type: application/json" -X POST "http://localhost:4567/fuck_fish/graphql" -d '{"query": "{ diary { title text name tags } }" }' | jq
 ```
 
 ```
@@ -116,7 +117,7 @@ curl -H "Content-Type: application/json" -X POST "http://localhost:4567/mongodb/
 
 ## serch
 ```
-curl -H "Content-Type: application/json" -X POST "http://localhost:4567/mongodb/graphql" -d '{"query": "{ search(name: gen2) { name } }" }' | jq
+curl -H "Content-Type: application/json" -X POST "http://localhost:4567/fuck_fish/graphql" -d '{"query": "{ search(name: gen2) { name } }" }' | jq
 ```
 
 ```
@@ -133,7 +134,7 @@ curl -H "Content-Type: application/json" -X POST "http://localhost:4567/mongodb/
 ## mutation
 ```
 reqest
-curl 'http://localhost:4567/mongodb/graphql' \
+curl 'http://localhost:4567/fuck_fish/graphql' \
  -H 'Accept-Encoding: gzip, deflate, br' \
  -H 'Content-Type: application/json' \
  -H 'Accept: application/json' \
