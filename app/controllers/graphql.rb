@@ -9,6 +9,7 @@ class Graphql < Base
   end
 
   post '/' do
+    puts params[:query]
     result = AppSchema.execute(
       params[:query],
       variables: params[:variables],

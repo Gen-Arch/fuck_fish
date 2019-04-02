@@ -133,15 +133,13 @@ curl -H "Content-Type: application/json" -X POST "http://localhost:4567/fuck_fis
 ```
 ## mutation
 ```
-reqest
 curl 'http://localhost:4567/fuck_fish/graphql' \
- -H 'Accept-Encoding: gzip, deflate, br' \
- -H 'Content-Type: application/json' \
- -H 'Accept: application/json' \
- -H 'Connection: keep-alive' \
- -H 'DNT: 1' \
- -H 'Origin: file://' \
- --data-binary '{"query":"mutation AddDiary(\n  $title: String!\n  $text: String!\n  $name: String!\n  $tags: [String!]!\n) {\n  createDiary(title: $title, text: $text, name: $name, tags: $tags) {\n    success\n    errors\n  }\n}\n","variables":{"title":"testhoge","text":"foooooo!!","name":"gem","tags":["aa","sss"]}}' --compressed｀｀｀
+-H 'Accept-Encoding: gzip, deflate, br' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'Connection: keep-alive' \
+-H 'DNT: 1' -H 'Origin: file://' \
+--data-binary '{"query":"mutation {\n\tcreateDiary(title: \"testfdsj\", text: \"fjdklsajfklsa\", name: \"fdjkasghsa;g\", tags: [\"fda\"]) {\n\t\tsuccess\n\t\terrors\n\t}\n}"}' --compressed
 ```
 
 ```
