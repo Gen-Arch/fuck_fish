@@ -1,13 +1,23 @@
 # fuck fish
 fuck fish WebAPI
 
+## run puroduction
+### main
+https://gen-server.wjg.jp/fuck_fish
+
+### graphql
+https://gen-server.wjg.jp/fuck_fish/graphql
+
+## run development
 ### main
 http://localhost:4567/fuck_fish
-### mongo-express
-http://localhost:4567/fuck_fish/mongodb
-思ってた
-## graphql
+
+### graphql
 http://localhost:4567/fuck_fish/graphql
+
+
+### mongo-express
+http://localhost:8081
 
 # Deplotment
 - [Ruby(2.5.0)](https://www.ruby-lang.org/ja/)
