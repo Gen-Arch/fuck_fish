@@ -18,7 +18,7 @@ namespace :procsd do
     print 'first env?(default: development) : '
     env = $stdin.gets.chomp
     env = 'development' if env.empty?
-    procsd['environment'].merge!('APP_ENV' => env)
+    procsd['environment'].merge!('RACK_ENV' => env)
 
     print 'relative_url_root?(default: /) : '
     url = $stdin.gets.chomp
