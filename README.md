@@ -5,7 +5,7 @@ fuck fish WebAPI
 http://localhost:4567/fuck_fish
 ### mongo-express
 http://localhost:4567/fuck_fish/mongodb
-
+思ってた
 ## graphql
 http://localhost:4567/fuck_fish/graphql
 
@@ -15,7 +15,7 @@ http://localhost:4567/fuck_fish/graphql
 - [Graphql-ruby](https://graphql-ruby.org/)
 - [sinatra](http://sinatrarb.com/)
 - [docker](https://www.docker.com/)
-- [docker-compose](https://docs.docker.com/compose/))
+- [docker-compose](https://docs.docker.com/compose/)
 
 ## DB
 - [mongodb](https://www.mongodb.com/)
