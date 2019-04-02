@@ -14,10 +14,13 @@ http://localhost:4567/fuck_fish/graphql
 - [Graphql](https://graphql.org/)
 - [Graphql-ruby](https://graphql-ruby.org/)
 - [sinatra](http://sinatrarb.com/)
+- [docker](https://www.docker.com/)
+- [docker-compose](https://docs.docker.com/compose/))
 
 ## DB
 - [mongodb](https://www.mongodb.com/)
 - [mongoid](https://docs.mongodb.com/mongoid/current/)
+
 
 
 
@@ -28,8 +31,13 @@ http://localhost:4567/fuck_fish/graphql
 bundle install
 ```
 
+## setup
+### create procsd.yml
+```
+bundle exec rake setup
+```
 
-## create systemd file(.service&.target)
+### create systemd file(.service&.target)
 ```
 bundle exec procsd create
 ```
